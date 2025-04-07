@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package calculator;
+
+service Calculator {
+  rpc Add (CalculationRequest) returns (CalculationResponse) {}
+  rpc Subtract (CalculationRequest) returns (CalculationResponse) {}
+  rpc Multiply (CalculationRequest) returns (CalculationResponse) {}
+  rpc Divide (CalculationRequest) returns (CalculationResponse) {}
+  rpc ProcessOperation (OperationRequest) returns (CalculationResponse) {}
+}
+
+message CalculationRequest {
+  double a = 1;
+  double b = 2;
+  string request_id = 3;
+}
+
+message OperationRequest {
+  string operation = 1;  // "add", "subtract", "multiply", "divide"
+  double a = 2;
+  double b = 3;
+  string request_id = 4;
+}
+
+message CalculationResponse {
+  double result = 1;
+  string status = 2;
+  string error = 3;
+  string request_id = 4;
+}

@@ -1,0 +1,77 @@
+version: '3'
+
+services:
+  mom:
+    build: ./mom
+    ports:
+      - "5001:5001"
+    networks:
+      - calculator-network
+
+  addition:
+    build: ./microservices/addition
+    depends_on:
+      - mom
+    environment:
+      - MOM_SERVICE=http://mom:5001
+    volumes:
+      - ./microservices/proto:/app/proto
+    networks:
+      - calculator-network
+
+  subtraction:
+    build: ./microservices/subtraction
+    depends_on:
+      - mom
+    environment:
+      - MOM_SERVICE=http://mom:5001
+    volumes:
+      - ./microservices/proto:/app/proto
+    networks:
+      - calculator-network
+
+  multiplication:
+    build: ./microservices/multiplication
+    depends_on:
+      - mom
+    environment:
+      - MOM_SERVICE=http://mom:5001
+    volumes:
+      - ./microservices/proto:/app/proto
+    networks:
+      - calculator-network
+
+  division:
+    build: ./microservices/division
+    depends_on:
+      - mom
+    environment:
+      - MOM_SERVICE=http://mom:5001
+    volumes:
+      - ./microservices/proto:/app/proto
+    networks:
+      - calculator-network
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "5000:5000"
+    depends_on:
+      - addition
+      - subtraction
+      - multiplication
+      - division
+      - mom
+    environment:
+      - ADDITION_SERVICE=addition:50051
+      - SUBTRACTION_SERVICE=subtraction:50052
+      - MULTIPLICATION_SERVICE=multiplication:50053
+      - DIVISION_SERVICE=division:50054
+      - MOM_SERVICE=http://mom:5001
+    volumes:
+      - ./microservices/proto:/app/proto
+    networks:
+      - calculator-network
+
+networks:
+  calculator-network:
