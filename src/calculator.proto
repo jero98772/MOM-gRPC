@@ -7,25 +7,17 @@ service Calculator {
   rpc Subtract (CalculationRequest) returns (CalculationResponse) {}
   rpc Multiply (CalculationRequest) returns (CalculationResponse) {}
   rpc Divide (CalculationRequest) returns (CalculationResponse) {}
-  rpc ProcessOperation (OperationRequest) returns (CalculationResponse) {}
 }
 
 message CalculationRequest {
-  double a = 1;
-  double b = 2;
-  string request_id = 3;
-}
-
-message OperationRequest {
-  string operation = 1;  // "add", "subtract", "multiply", "divide"
-  double a = 2;
-  double b = 3;
-  string request_id = 4;
+  float num1 = 1;
+  float num2 = 2;
+  string operation_id = 3;  // Unique identifier for tracking operations
 }
 
 message CalculationResponse {
-  double result = 1;
-  string status = 2;
-  string error = 3;
-  string request_id = 4;
+  float result = 1;
+  string operation_id = 2;
+  bool success = 3;
+  string error_message = 4;
 }

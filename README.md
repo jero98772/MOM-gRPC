@@ -5,7 +5,7 @@ Proyecto de comunicación entre procesos remotos con tolerancia a fallos utiliza
 Nuestro proyecto fue desarrollado para la materia Tópicos Especiales en Telemática en la Universidad EAFIT. Tiene como objetivo principal demostrar una arquitectura distribuida moderna con microservicios que utilizan REST y gRPC, integrados mediante un MOM para garantizar availability.
 
 ## Integrantes
-- Victor Arango Sohm
+- Victor Arango S
 - Laura Danniela Zárate Guerrero
 - Felipe Uribe Correa
 
@@ -38,8 +38,16 @@ Diseñar e implementar una aplicación distribuida con microservicios que integr
 ### Pasos
 ```bash
 cd src
-docker-compose up --build
+python setup.py
+
+python run_all.py
 ```
+
+Si no funciona 
+ejecute:
+
+     python run_all.py
+
 
 ## Uso del sistema
 Para probrar se puede enviar una solicitud POST al API Gateway como esta:

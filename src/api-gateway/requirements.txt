@@ -1,5 +1,0 @@
-flask==2.0.1
-werkzeug==2.0.1
-requests==2.27.1
-grpcio==1.43.0
-grpcio-tools==1.43.0
