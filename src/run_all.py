@@ -5,13 +5,14 @@ import time
 import subprocess
 import signal
 import atexit
-
+from client import run_manual_mode ,run_autotest_mode
 processes = []
 
-def start_service(script_name):
-    """Start a service in a new process"""
-    print(f"Starting {script_name}...")
-    process = subprocess.Popen([sys.executable, script_name])
+def start_service(script_name, *args):
+    """Start a service in a new process with optional command-line arguments"""
+    cmd = [sys.executable, script_name] + list(args)
+    print(f"Starting {' '.join(cmd)}...")
+    process = subprocess.Popen(cmd)
     processes.append((script_name, process))
     return process
 
@@ -52,7 +53,19 @@ def main():
     time.sleep(3)
     
     # Start client for testing
-    client_process = start_service("client.py")
+    print("\nStarting client...")
+    option=input("""Press Enter to start client...\n
+        do you prefere
+        1) automatic testing
+        2) manual testing
+        please enter your choice[1/2]
+    """)
+    if option=="1":
+        client_process = start_service("client.py", "--mode", "autotest")
+    if option=="2" :
+        client_process = start_service("client.py", "--mode", "manual")
+    #client_process = start_service("client.py")
+
     client_process.wait()  # Wait for client to complete
     
     # Keep running until user terminates
@@ -62,6 +75,7 @@ def main():
             time.sleep(1)
     except KeyboardInterrupt:
         pass
+
 
 if __name__ == "__main__":
     main()

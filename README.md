@@ -1,59 +1,52 @@
+Sure! Here's the English translation of your document:
+
+---
+
 # MOM-gRPC
 
-Proyecto de comunicación entre procesos remotos con tolerancia a fallos utilizando gRPC, REST y un middleware orientado a mensajes o MOM.
+Project for remote process communication with fault tolerance using gRPC, REST, and a message-oriented middleware (MOM).
 
-Nuestro proyecto fue desarrollado para la materia Tópicos Especiales en Telemática en la Universidad EAFIT. Tiene como objetivo principal demostrar una arquitectura distribuida moderna con microservicios que utilizan REST y gRPC, integrados mediante un MOM para garantizar availability.
+Our project was developed for the course *Special Topics in Telematics* at Universidad EAFIT. Its main objective is to demonstrate a modern distributed architecture with microservices that use REST and gRPC, integrated through a MOM to ensure availability.
 
-## Integrantes
-- Victor Arango S
-- Laura Danniela Zárate Guerrero
+## Team Members
+- Victor Arango S  
+- Laura Danniela Zárate Guerrero  
 - Felipe Uribe Correa
 
-## Objetivos
+## Objectives
 
-### Objetivo General
-Diseñar e implementar una aplicación distribuida con microservicios que integre:
-- Cliente basado en REST
-- Microservicios que se comuniquen mediante gRPC
-- Middleware de mensajería con mecanismo de recuperación de fallos
+### General Objective
+Design and implement a distributed application with microservices that integrates:
+- REST-based client  
+- Microservices communicating via gRPC  
+- Messaging middleware with fault recovery mechanisms
 
-### Objetivos Específicos
-- Desarrollar un API Gateway que gestione las peticiones REST.
-- Aplicar gRPC para la comunicación entre microservicios.
-- Implementar un MOM que enrute solicitudes y administre tolerancia a fallos.
-- Asegurar modularidad y escalabilidad con Docker.
+### Specific Objectives
+- Develop an API Gateway to manage REST requests  
+- Apply gRPC for communication between microservices  
+- Implement a MOM to route requests and manage fault tolerance  
+- Ensure modularity and scalability with Docker  
 
-## Tecnologías Utilizadas
-- Python 3.10+
-- Flask (API Gateway)
-- gRPC + Protocol Buffers
-- Docker & Docker Compose
-- Librerías: grpcio, grpcio-tools, requests, protobuf
+## Technologies Used
+- Python 3.10+  
+- Flask (API Gateway)  
+- gRPC + Protocol Buffers  
+- Docker & Docker Compose  
+- Libraries: `grpcio`, `grpcio-tools`, `requests`, `protobuf`
 
-## Instalación y Ejecución
-### Requisitos
-- Docker
+## Installation and Execution
+### Requirements
+- Docker  
 - Docker Compose
 
-### Pasos
+### Steps
 ```bash
 cd src
 python setup.py
 
-python run_all.py
 ```
 
-Si no funciona 
-ejecute:
+## System Usage
+To test the system, you can send a POST request to the API Gateway like this:
 
-     python run_all.py
-
-
-## Uso del sistema
-Para probrar se puede enviar una solicitud POST al API Gateway como esta:
-```bash
-curl -X POST http://localhost:8080/calculate \
-     -H "Content-Type: application/json" \
-     -d '{"operation": "multiplication", "operands": [8, 3]}'
-```
-
+	python run_all.py

@@ -2,6 +2,7 @@ import requests
 import json
 import time
 import uuid
+import argparse
 
 class CalculatorClient:
     def __init__(self, gateway_url="http://localhost:5000"):
@@ -86,29 +87,88 @@ class CalculatorClient:
             return {"error": f"Health check failed: {str(e)}"}
 
 
-def main():
-    client = CalculatorClient()
-    
-    # Perform health check
+def run_manual_mode(client):
+    while True:
+        print("\n=== Calculator Client Menu ===")
+        print("1. Perform a calculation")
+        print("2. Perform health check")
+        print("3. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            print("\nAvailable operations: add, subtract, multiply, divide")
+            operation = input("Enter operation: ").strip().lower()
+            if operation not in {"add", "subtract", "multiply", "divide"}:
+                print("Invalid operation. Please try again.")
+                continue
+
+            try:
+                num1 = float(input("Enter first number: "))
+                num2 = float(input("Enter second number: "))
+            except ValueError:
+                print("Invalid input. Please enter numeric values.")
+                continue
+
+            result = client.calculate(operation, num1, num2)
+            print("Result:")
+            print(json.dumps(result, indent=2))
+
+        elif choice == "2":
+            print("\nPerforming health check...")
+            health = client.health_check()
+            print(json.dumps(health, indent=2))
+
+        elif choice == "3":
+            print("Exiting the client. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+
+def run_autotest_mode(client):
     print("Performing health check...")
     health = client.health_check()
     print(json.dumps(health, indent=2))
-    
-    # Perform some calculations
+
     operations = [
         {"operation": "add", "num1": 10, "num2": 5},
         {"operation": "subtract", "num1": 10, "num2": 5},
         {"operation": "multiply", "num1": 10, "num2": 5},
         {"operation": "divide", "num1": 10, "num2": 5},
-        {"operation": "divide", "num1": 10, "num2": 0}  # Should generate an error
+        {"operation": "divide", "num1": 10, "num2": 0}
     ]
-    
+
     for op in operations:
-        print(f"\nPerforming {op['operation']} operation: {op['num1']} {op['operation']} {op['num2']}")
+        print(f"\nTesting: {op['num1']} {op['operation']} {op['num2']}")
         result = client.calculate(op['operation'], op['num1'], op['num2'])
         print(json.dumps(result, indent=2))
-        time.sleep(1)  # Small delay between operations
-    
-    
+        time.sleep(1)
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Calculator Client for MOM-gRPC System")
+    parser.add_argument(
+        "--mode",
+        choices=["manual", "autotest"],
+        required=True,
+        help="Choose 'manual' for interactive mode or 'autotest' to run predefined tests"
+    )
+    parser.add_argument(
+        "--url",
+        default="http://localhost:5000",
+        help="Base URL of the API Gateway (default: http://localhost:5000)"
+    )
+
+    args = parser.parse_args()
+    client = CalculatorClient(gateway_url=args.url)
+
+    if args.mode == "manual":
+        run_manual_mode(client)
+    elif args.mode == "autotest":
+        run_autotest_mode(client)
+
+
 if __name__ == "__main__":
     main()
+
