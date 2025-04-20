@@ -36,6 +36,7 @@ def main():
     signal.signal(signal.SIGTERM, lambda sig, frame: sys.exit(0))
     
     # Start all microservices
+    
     start_service("addition_service.py")
     time.sleep(1)
     

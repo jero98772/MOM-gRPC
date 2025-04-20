@@ -1,6 +1,3 @@
-Sure! Here's the English translation of your document:
-
----
 
 # MOM-gRPC
 
